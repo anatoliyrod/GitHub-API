@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Set your GitHub username and token
+GITHUB_USER="your_username"
+GITHUB_TOKEN="your_token"
+
+# Set the name of the repository you want to create
+REPO_NAME="your_repo_name"
+
+# Set the description of the repository
+REPO_DESCRIPTION="your_repo_description"
+
+# Set the URL of the repository's home page
+REPO_HOMEPAGE="https://your_repo_homepage.com"
+
+# Set the URL of the repository's Git repository
+REPO_GIT_URL="git@github.com:${GITHUB_USER}/${REPO_NAME}.git"
+
+# Set the API endpoint for creating a repository
+GITHUB_API_URL="https://api.github.com/user/repos"
+
+# Create a JSON payload with the repository's name, description, and homepage
+JSON=$(printf '{"name": "%s", "description": "%s", "homepage": "%s", "private": false}' "${REPO_NAME}" "${REPO_DESCRIPTION}" "${REPO_HOMEPAGE}")
+
+# Use curl to send a POST request to the GitHub API to create the repository
+curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" -d "${JSON}" "${GITHUB_API_URL}"
+
+# Initialize a Git repository in the local directory and add the remote origin
+git init
+git remote add origin "${REPO_GIT_URL}"
